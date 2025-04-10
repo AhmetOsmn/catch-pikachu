@@ -24,7 +24,9 @@ Pikachu'nun Macerası, Three.js kullanılarak geliştirilmiş eğlenceli bir 3D 
 
 Oyun mobil cihazlarda da oynanabilir. Ekranda görünen kontrol butonlarını kullanarak Pikachu'yu yönlendirebilirsiniz.
 
-## 🏆 Zorluk Seviyeleri
+> **TODO:** Mobil cihazlarda daha iyi bir oyun deneyimi için dokunmatik kontrollerin hassasiyeti ve kullanıcı arayüzü iyileştirmeleri yapılacaktır.
+
+## �� Zorluk Seviyeleri
 
 Oyun üç farklı zorluk seviyesinde oynanabilir:
 - **Kolay**: Başlangıç seviyesi, daha az engel
