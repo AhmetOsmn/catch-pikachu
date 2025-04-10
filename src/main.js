@@ -1035,65 +1035,15 @@ class Game {
 
     createHealthBar() {
         // Can göstergesi
-        const healthBarContainer = document.createElement('div');
-        healthBarContainer.style.position = 'fixed';
-        healthBarContainer.style.top = '20px';
-        healthBarContainer.style.right = '20px';
-        healthBarContainer.style.width = '200px';
-        healthBarContainer.style.height = '20px';
-        healthBarContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        healthBarContainer.style.borderRadius = '10px';
-        healthBarContainer.style.overflow = 'hidden';
-        healthBarContainer.style.zIndex = '100';
-
-        const healthBar = document.createElement('div');
-        healthBar.style.width = '100%';
-        healthBar.style.height = '100%';
-        healthBar.style.backgroundColor = '#ff0000';
-        healthBar.style.transition = 'width 0.3s ease';
-        healthBarContainer.appendChild(healthBar);
-
-        // Kalp ikonu
-        const heartIcon = document.createElement('div');
-        heartIcon.innerHTML = '❤️';
-        heartIcon.style.position = 'absolute';
-        heartIcon.style.left = '5px';
-        heartIcon.style.top = '2px';
-        heartIcon.style.fontSize = '14px';
-        healthBarContainer.appendChild(heartIcon);
-
-        // Stamina göstergesi (sol alta taşındı)
-        const staminaBarContainer = document.createElement('div');
-        staminaBarContainer.style.position = 'fixed';
-        staminaBarContainer.style.bottom = '20px';
-        staminaBarContainer.style.left = '20px';
-        staminaBarContainer.style.width = '200px';
-        staminaBarContainer.style.height = '20px';
-        staminaBarContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        staminaBarContainer.style.borderRadius = '10px';
-        staminaBarContainer.style.overflow = 'hidden';
-        staminaBarContainer.style.zIndex = '100';
-
-        const staminaBar = document.createElement('div');
-        staminaBar.style.width = '100%';
-        staminaBar.style.height = '100%';
-        staminaBar.style.backgroundColor = '#00ff00';
-        staminaBar.style.transition = 'width 0.3s ease';
-        staminaBarContainer.appendChild(staminaBar);
-
-        // Yıldırım ikonu
-        const lightningIcon = document.createElement('div');
-        lightningIcon.innerHTML = '⚡';
-        lightningIcon.style.position = 'absolute';
-        lightningIcon.style.left = '5px';
-        lightningIcon.style.top = '2px';
-        lightningIcon.style.fontSize = '14px';
-        staminaBarContainer.appendChild(lightningIcon);
-
-        document.body.appendChild(healthBarContainer);
-        document.body.appendChild(staminaBarContainer);
-        this.healthBar = healthBar;
-        this.staminaBar = staminaBar;
+        const healthBarContainer = document.getElementById('health-bar');
+        const healthFill = document.getElementById('health-fill');
+        
+        // Stamina göstergesi
+        const staminaBarContainer = document.getElementById('power-meter');
+        const staminaFill = document.getElementById('power-fill');
+        
+        this.healthBar = healthFill;
+        this.staminaBar = staminaFill;
     }
 
     updateHealth() {
