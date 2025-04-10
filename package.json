@@ -1,0 +1,17 @@
+{
+  "name": "catch-pikachu",
+  "version": "1.0.0",
+  "description": "3D Pikachu kaçış oyunu",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "three": "^0.162.0",
+    "gsap": "^3.12.5"
+  },
+  "devDependencies": {
+    "vite": "^5.1.4"
+  }
+} 
