@@ -1,5 +1,8 @@
+import { injectSpeedInsights } from '@vercel/speed-insights';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+injectSpeedInsights();
 
 class Game {
     constructor() {

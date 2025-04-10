@@ -8,10 +8,11 @@
     "build": "vite build"
   },
   "dependencies": {
-    "three": "^0.162.0",
-    "gsap": "^3.12.5"
+    "@vercel/speed-insights": "^1.2.0",
+    "gsap": "^3.12.5",
+    "three": "^0.162.0"
   },
   "devDependencies": {
     "vite": "^5.1.4"
   }
-} 
+}
