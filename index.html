@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pikachu'nun Macerası</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <style>
@@ -10,10 +10,23 @@
             margin: 0;
             overflow: hidden;
             font-family: Arial, sans-serif;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            width: 100vw;
+            height: 100vh;
         }
         canvas {
-            width: 100%;
-            height: 100%;
+            width: 100vw !important;
+            height: 100vh !important;
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
         #score {
             position: fixed;
@@ -22,11 +35,16 @@
             color: white;
             font-size: 24px;
             z-index: 100;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
         }
         #power-meter {
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 200px;
             height: 20px;
             background: rgba(255, 255, 255, 0.3);
@@ -64,9 +82,30 @@
             width: 90%;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             position: relative;
-            overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 215, 0, 0.5) rgba(0, 0, 0, 0.2);
+        }
+        
+        .start-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .start-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        
+        .start-content::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 215, 0, 0.5);
+            border-radius: 4px;
+        }
+        
+        .start-content::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(255, 215, 0, 0.7);
         }
         
         .game-title {
@@ -187,6 +226,25 @@
             margin-top: 1rem;
         }
         
+        .health-info {
+            background-color: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            color: #ff6b6b;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .health-info svg {
+            width: 24px;
+            height: 24px;
+            fill: #ff6b6b;
+        }
+        
         @keyframes float {
             0% {
                 transform: translateY(0);
@@ -199,20 +257,6 @@
             }
         }
         
-        @media (max-width: 768px) {
-            .difficulty-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .difficulty-button {
-                width: 80%;
-            }
-            
-            .game-title {
-                font-size: 2.2rem;
-            }
-        }
         #controls {
             position: fixed;
             bottom: 20px;
@@ -227,29 +271,42 @@
             display: none;
             position: fixed;
             bottom: 20px;
-            left: 20px;
+            left: 0;
+            right: 0;
             z-index: 100;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
         }
         #movement-controls {
             display: flex;
             flex-direction: column;
             align-items: center;
             margin-bottom: 10px;
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
         }
         .horizontal-controls {
             display: flex;
             gap: 10px;
+            justify-content: center;
         }
         .mobile-btn {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: rgba(0, 0, 0, 0.5);
             color: white;
             border: none;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
             touch-action: none;
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .mobile-btn:active {
             background: rgba(255, 255, 255, 0.3);
@@ -258,8 +315,8 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background-color: #4CAF50;
             border: none;
@@ -269,20 +326,16 @@
             z-index: 100;
             opacity: 0.8;
             transition: opacity 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         #jump-btn:hover {
             opacity: 1;
         }
 
-        @media (max-width: 768px) {
-            #mobile-controls {
-                display: block;
-            }
-            #controls {
-                display: none;
-            }
-        }
         #citizen-count {
             position: fixed;
             top: 60px;
@@ -290,6 +343,10 @@
             color: #ffd700;
             font-size: 24px;
             z-index: 100;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         
         #success-screen {
@@ -344,6 +401,8 @@
             text-align: center;
             color: white;
             max-width: 80%;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .result-content h1 {
@@ -409,6 +468,185 @@
                 transform: scale(1);
             }
         }
+        
+        @media (max-width: 768px) {
+            .difficulty-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .difficulty-button {
+                width: 80%;
+                margin-bottom: 10px;
+            }
+            
+            .game-title {
+                font-size: 2.2rem;
+            }
+            
+            #mobile-controls {
+                display: block;
+            }
+            
+            #controls {
+                display: none;
+            }
+            
+            .start-content {
+                padding: 1.5rem;
+                width: 85%;
+            }
+            
+            #score, #citizen-count {
+                font-size: 18px;
+            }
+            
+            #power-meter {
+                width: 150px;
+                height: 15px;
+            }
+            
+            .result-content {
+                padding: 1.5rem;
+                width: 90%;
+            }
+            
+            .result-content h1 {
+                font-size: 2rem;
+            }
+            
+            #result-message {
+                font-size: 1.5rem;
+            }
+            
+            #result-description {
+                font-size: 1rem;
+            }
+            
+            .result-stats p {
+                font-size: 1rem;
+            }
+            
+            #result-screen button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 1.8rem;
+            }
+            
+            .difficulty-title {
+                font-size: 1.4rem;
+            }
+            
+            .mobile-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+            
+            .pikachu-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .game-logo {
+                height: 120px;
+            }
+            
+            .difficulty-icon {
+                font-size: 1.6rem;
+            }
+            
+            .difficulty-text {
+                font-size: 1rem;
+            }
+            
+            .game-description {
+                font-size: 0.9rem;
+            }
+            
+            #score, #citizen-count {
+                font-size: 16px;
+                padding: 4px 8px;
+            }
+            
+            #power-meter {
+                width: 120px;
+                height: 12px;
+            }
+            
+            .result-content {
+                padding: 1rem;
+            }
+            
+            .result-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            #result-message {
+                font-size: 1.3rem;
+            }
+            
+            #result-description {
+                font-size: 0.9rem;
+            }
+            
+            .result-stats p {
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-height: 600px) {
+            .start-content {
+                padding: 1rem;
+            }
+            
+            .game-title {
+                font-size: 1.8rem;
+                margin-bottom: 1rem;
+            }
+            
+            .game-logo {
+                height: 100px;
+                margin-bottom: 1rem;
+            }
+            
+            .pikachu-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .difficulty-title {
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
+            }
+            
+            .difficulty-buttons {
+                margin-bottom: 1rem;
+            }
+            
+            .difficulty-button {
+                padding: 0.8rem 1rem;
+            }
+            
+            .difficulty-icon {
+                font-size: 1.6rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .difficulty-text {
+                font-size: 1rem;
+            }
+            
+            .game-description {
+                font-size: 0.9rem;
+                margin-top: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -433,12 +671,19 @@
                     <span class="difficulty-text">Zor</span>
                 </button>
             </div>
+            <div class="health-info">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>Kırmızı binaların içerisinde 1 saniye durduğunda canın yenilenecektir.</span>
+                </div>
             <div style="color: #ffd700; margin-top: 20px; font-size: 1.2rem; text-align: center;">
                 <p>⚠️ Oyun şu anda bilgisayardan daha kolay oynanabilir durumda.</p>
                 <p>📱 Mobil cihazlar için geliştirmeler devam ediyor.</p>
             </div>
             <div class="game-description">
                 <p>Arkadaşlarını topla ve hedefine ulaş! </p>
+                
                 <a href="https://github.com/AhmetOsmn/catch-pikachu" target="_blank" style="color: #ffd700; text-decoration: none; margin-top: 10px; display: inline-flex; align-items: center; gap: 5px;">
                     <svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32" data-view-component="true" class="octicon octicon-mark-github v-align-middle">
                         <path d="M12 1C5.9225 1 1 5.9225 1 12C1 16.8675 4.14875 20.9787 8.52125 22.4362C9.07125 22.5325 9.2775 22.2025 9.2775 21.9137C9.2775 21.6525 9.26375 20.7862 9.26375 19.865C6.5 20.3737 5.785 19.1912 5.565 18.5725C5.44125 18.2562 4.905 17.28 4.4375 17.0187C4.0525 16.8125 3.5025 16.3037 4.42375 16.29C5.29 16.2762 5.90875 17.0875 6.115 17.4175C7.105 19.0812 8.68625 18.6137 9.31875 18.325C9.415 17.61 9.70375 17.1287 10.02 16.8537C7.5725 16.5787 5.015 15.63 5.015 11.4225C5.015 10.2262 5.44125 9.23625 6.1425 8.46625C6.0325 8.19125 5.6475 7.06375 6.2525 5.55125C6.2525 5.55125 7.17375 5.2625 9.2775 6.67875C10.1575 6.43125 11.0925 6.3075 12.0275 6.3075C12.9625 6.3075 13.8975 6.43125 14.7775 6.67875C16.8813 5.24875 17.8025 5.55125 17.8025 5.55125C18.4075 7.06375 18.0225 8.19125 17.9125 8.46625C18.6138 9.23625 19.04 10.2125 19.04 11.4225C19.04 15.6437 16.4688 16.5787 14.0213 16.8537C14.42 17.1975 14.7638 17.8575 14.7638 18.8887C14.7638 20.36 14.75 21.5425 14.75 21.9137C14.75 22.2025 14.9563 22.5462 15.5063 22.4362C19.8513 20.9787 23 16.8537 23 12C23 5.9225 18.0775 1 12 1Z"></path>
